@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>IoT Control</title>
+	<meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.1/css/all.css" integrity="sha384-gfdkjb5BdAXd+lj+gudLWI+BXq4IuLW5IT+brZEZsLFm++aCMlF1V92rMkPaX4PP" crossorigin="anonymous">
+	<link rel="stylesheet" href="lao/style.css">
+	<link rel="stylesheet" href="style.css">
+	<link rel="stylesheet" href="css/bootstrap.css">
+	<script src="https://netpie.io/microgear.js"></script>
+	<script src="js/raphael-2.1.4.min.js"></script>
+	<script src="js/justgage.js"></script>
+</head>
+<body >
+<style>
+	body{
+		background-color: #EEEEEE;
+	}
+	.btn{
+		border: 2px solid #1E88E5;
+        border-radius: 12px;
+        width: 100px;
+        margin-right:10px;
+	}
+	.btn1{
+		border: 2px solid #FFA726;
+        border-radius: 12px;
+        width: 100px;
+	}
+</style>
+
+<section>
+  <h1 id="login_div" class="text-center"></h1>
+</section>
+
+<section id="user_div">
+  <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary shadow p-2">
+	<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
+		<span class="navbar-toggler-icon"></span>
+	</button>
+	<a class="navbar-brand font-weight-bold" href="#">Smart StrawIoT</a>
+
+	<div class="collapse navbar-collapse font-weight-bold" id="navbarTogglerDemo03">
+		<ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+			<li class="nav-item active">
+				<a class="nav-link" href="https://www.laostraw-iot.ml/dashboard/" target="_blank"><i class="fas fa-house-damage"></i> ພາບລວມລະບົບ </a>
+			</li>
+			<li class="nav-item active">
+				<a class="nav-link" href="temin.html"><i class="fas fa-temperature-low"></i> ອຸນຫະພູມພາຍໃນ</a>
+			</li>
+			<li class="nav-item active">
+				<a class="nav-link" href="temout.html"><i class="fas fa-temperature-high"></i> ອຸນຫະພູມພາຍນອກ</a>
+			</li>
+			<li class="nav-item active">
+				<a class="nav-link" href="control.html"><i class="fas fa-plug"></i> ຄວບຄຸມລະບົບ</a>
+			</li>
+			<li class="nav-item active">
+				<a class="nav-link" href="status.html"><i class="fas fa-wifi"></i> ສະຖານະ</a>
+			</li>
+			<li class="nav-item active">
+				<a class="nav-link" href="user.html"><i class="fas fa-users-cog"></i> ຜູ່ໃຊ້ລະບົບ</a>
+			</li>
+			<li class="nav-item active text-right">
+				<a class="nav-link" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Logout</a>
+			</li>
+		</ul>
+	</div>
+</nav>
+
+<section style="margin-top:60px;margin-bottom:20px">
+ 	<div class="container">
+ 		<p class="text-right"><b>ຜູ່ໃຊ້ລະບົບ: </b> <b id="user_email"></b></p>
+ 	  <div class="row">
+ 	  	<div class="col-md-4">
+ 	  		<div class="card shadow p-3 bg-white rounded">
+			  <div class="card-body">
+			  	<h5><i class="fas fa-plug"></i>  ຄວບຄຸມປ້ຳຫົດນ້ຳ: <a href=""><b id="status1"></b></a></h5>
+			    <center id="relay1" onclick="switchPress()">
+			    	<button class="btn btn-outline-info btn-lg" onclick="relay1_on()">
+			    		<b><i class="far fa-lightbulb"></i>  ເປີດ</b>
+			    	</button>
+			        <button class="btn btn-outline-warning btn1 btn-lg" onclick="relay1_off()">
+			        	<b><i class="fas fa-power-off"></i>  ປິດ</b>
+			        </button>
+			    </center>
+			  </div>
+			</div>
+ 	  	</div>
+ 	  	<div class="col-md-4" style="margin-top:2px;">
+ 	  		<div class="card shadow p-3 bg-white rounded">
+			  <div class="card-body">
+			  	<h5><i class="fas fa-tint"></i>  ຄວບຄຸມປ້ຳຜົ່ນນ້ຳ: <a href=""><b id="status2"></b></a></h5>
+			    <center id="relay2" onclick="switchPressTwo()">
+			    	<button class="btn btn-outline-info btn-lg" onclick="relay2_on()">
+			    		<b><i class="far fa-lightbulb"></i>  ເປີດ</b>
+			    	</button>
+			        <button class="btn btn-outline-warning btn1 btn-lg" onclick="relay2_off()">
+			        	<b><i class="fas fa-power-off"></i>  ປິດ</b>
+			        </button>
+			    </center>
+			  </div>
+			</div>
+ 	  	</div>
+ 	  	<div class="col-md-4" style="margin-top:2px;">
+ 	  		<div class="card shadow p-3 bg-white rounded">
+			  <div class="card-body">
+			  	<h5><i class="fas fa-bullseye"></i>  ຄວບຄຸມພັດລົມລະບາຍອາກາດ: <a href=""><b id="status3"></b></a></h5>
+			    <center id="relay3" onclick="switchPressThree()">
+			    	<button class="btn btn-outline-info btn-lg" onclick="relay3_on()">
+			    		<b><i class="far fa-lightbulb"></i>  ເປີດ</b>
+			    	</button>
+			        <button class="btn btn-outline-warning btn1 btn-lg" onclick="relay3_off()">
+			        	<b><i class="fas fa-power-off"></i>  ປິດ</b>
+			        </button>
+			    </center>
+			  </div>
+			</div>
+ 	  	</div>
+ 	  	<div class="col-md-4" style="margin-top:2px;">
+ 	  		<div class="card shadow p-3 mb-5 bg-white rounded">
+			  <div class="card-body">
+			  	<h5><i class="fas fa-snowflake"></i>  ຄວບຄຸມຄວາມເຢັນ: <a href=""><b id="status4"></b></a></h5>
+			    <center id="relay4" onclick="switchPressFour()">
+			    	<button class="btn btn-outline-info btn-lg" onclick="relay4_on()">
+			    		<b><i class="far fa-lightbulb"></i>  ເປີດ</b>
+			    	</button>
+			        <button class="btn btn-outline-warning btn1 btn-lg" onclick="relay4_off()">
+			        	<b><i class="fas fa-power-off"></i>  ປິດ</b>
+			        </button>
+			    </center>
+			  </div>
+			</div>
+ 	  	</div>
+ 	  </div>
+ 	</div>
+ </section>
+
+</section>
+
+<script src="js/control.js"></script>
+
+
+<script src="https://www.gstatic.com/firebasejs/5.9.3/firebase.js"></script>
+<script>
+var config = {
+    apiKey: "AIzaSyCf-V7ml2NaPH8DOFlo1d-EktFxRuswF8I",
+    authDomain: "lao-strawberry.firebaseapp.com",
+    databaseURL: "https://lao-strawberry.firebaseio.com",
+    projectId: "lao-strawberry",
+    storageBucket: "lao-strawberry.appspot.com",
+    messagingSenderId: "4418407325"
+  };
+  firebase.initializeApp(config);
+</script>
+
+<script src="index.js"></script>
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+</body>
+</html>
